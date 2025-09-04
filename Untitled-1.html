@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智享时光 - AI养老规划师</title>
+  <style>
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #1a73e8;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0d62c9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>AI养老规划师</h1>
+    <p>只需1分钟，为您生成专属养老规划报告</p>
+    <form id="planForm">
+      <div class="form-group">
+        <label for="age">您的年龄</label>
+        <input type="number" id="age" name="age" required>
+      </div>
+      <div class="form-group">
+        <label for="income">您的年收入（人民币）</label>
+        <input type="number" id="income" name="income" required>
+      </div>
+      <div class="form-group">
+        <label for="retireAge">期望退休年龄</label>
+        <select id="retireAge" name="retireAge" required>
+          <option value="55">55岁</option>
+          <option value="60" selected>60岁</option>
+          <option value="65">65岁</option>
+        </select>
+      </div>
+      <!-- 可以再加1-2个问题，比如风险偏好 -->
+      <button type="submit">生成我的专属规划报告</button>
+    </form>
+  </div>
+
+  <script>
+    // 主要的“魔法”逻辑在这里！
+    document.getElementById('planForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // 阻止表单默认提交
+      // 1. 获取用户输入的值
+      const age = parseInt(document.getElementById('age').value);
+      const income = parseInt(document.getElementById('income').value);
+      // 2. 简单的“AI”逻辑：根据年龄选择不同的PDF报告
+      let pdfFile;
+      if (age >= 25 && age <= 35) {
+        pdfFile = 'reports/report_young.pdf'; // 对应年轻人的报告
+      } else if (age >= 36 && age <= 50) {
+        pdfFile = 'reports/report_mid.pdf'; // 对应中年人的报告
+      } else if (age >= 51) {
+        pdfFile = 'reports/report_old.pdf'; // 对应年长者的报告
+      } else {
+        alert('请输入有效的年龄！');
+        return;
+      }
+      // 3. 创建一个隐藏的链接并自动点击它来下载PDF
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pdfFile;
+      downloadLink.download = '智享时光-您的专属养老规划报告.pdf'; // 用户下载时看到的文件名
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      // （可选）4. 在这里可以添加一个提示，比如“报告生成成功，正在下载...”
+      alert('专属养老规划报告已生成，正在为您下载！');
+    });
+  </script>
+</body>
+
+</html>
